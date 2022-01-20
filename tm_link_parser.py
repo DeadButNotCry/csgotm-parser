@@ -17,7 +17,9 @@ def parse_tmlinks(item_link):
     response = requests.get(item_link)
     soup = BeautifulSoup(response.text, "lxml")
     same_items = soup.find_all("div", class_="sameitem")
-    for item in same_items:
+    print(len(same_items))
+    for index,item in enumerate(same_items):
+        print(index)
         name = soup.find(
             'div', class_="item-h1").find('h1').text.split(" (")[0]
         item_link = "https://market.csgo.com" + item.find("a").get("href")
@@ -35,7 +37,9 @@ def parse_tmlinks(item_link):
                 "price": price,
                 "Link_to_csgofloat_db": f"https://csgofloat.com/db?defIndex={defindex}&paintIndex={paintindex}&min={float(item_float)}&max={float(item_float)}",
                 "defindex": defindex,
-                "paintindex": paintindex
+                "paintindex": paintindex,
+                "steam_link": None,
+                "trade_link": None
             })
         except Exception:
             print(f"Link {item_link} just broke")
